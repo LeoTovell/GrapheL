@@ -1,0 +1,13 @@
+body{
+	padding: 10px;
+	font-family: arial;
+	text-align: center;
+	font-weight: bold;
+}
+
+input{
+	margin: 5px;
+	padding: 10px;
+	background-color: red;
+	width: 100%;
+}
