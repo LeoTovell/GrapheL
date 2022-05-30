@@ -20,3 +20,7 @@ def manage_database():
 @app.route("/profile")
 def profile():
 	return render_template("profile.html", user=logonManager.get_user())
+
+@app.route("/graph/<name>")
+def graph_all(name):
+        return "graph/" + name + " is not yet devloped, contact ask@leotovell.com for more details"

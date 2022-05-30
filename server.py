@@ -12,8 +12,8 @@ if(app != None):
 	print(f"App Created Successfully: {app}")
 
 # databases = ["users.db", "graphs.db"]
-userDBManager = DatabaseManager("users.db")
-graphDBManager = DatabaseManager("graphs.db")
+userDBManager = DatabaseManager("db/users.db")
+graphDBManager = DatabaseManager("db/graphs.db")
 logonManager = LogonManager(userDBManager)
 
 # Import routes managed in external file (for ease) !! MUST BE AFTER APP DEFINITION AND BEFORE SCRIPT RUN !!
