@@ -2,6 +2,7 @@
 <html>
 <head>
 	<title>webGL | Rotating Cube</title>
+	<link rel="stylesheet" type="text/css" href={{url_for('static', filename='styles/index.css')}}>
 </head>
 <body onload="InitDemo();">
 	<canvas id="rotatecube" width=800 height=600>
@@ -10,8 +11,29 @@
 
 	<br />
 	<i>By Leo Tovell - aided by <a href="https://www.youtube.com/c/IndigoCode">Indigo Coding</a>.</i>
-	<form action="index.html">
-		<input type="submit" value="Back">
+	<form action={{url_for("login")}}>
+		<input type="submit" value="Login">
+	</form>
+	<form action={{url_for("register")}}>
+		<input type="submit" value="Register">
+	</form>
+	<form action={{url_for("manage_database")}}>
+		<input type="submit" value="Manage Database">
+	</form>
+	<form action={{url_for("index")}}>
+		<input type="submit" value="Here!">
+	</form>
+	<br>
+	<form onsubmit="toggled(); return false">
+		<input id="general" type="submit" value="Toggle Animation">
+	</form>
+
+	<form onsubmit="rotateXToggle(); return false">
+		<input id="x" type="submit" value="Toggle Toggle Rotate X">
+	</form>
+
+	<form onsubmit="rotateYToggle(); return false">
+		<input id="y" type="submit" value="Toggle Rotate Y">
 	</form>
 
 	<script src={{url_for('static', filename='js/gl-matrix.js')}}></script>

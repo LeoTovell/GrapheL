@@ -1,3 +1,16 @@
+let toggle = rotateY = rotateX = true;
+let count = yCount = xCount = performanceSinceLastToggled = 0;
+function toggled(){
+	toggle = !toggle;
+	performanceSinceLastToggled = performance.now();
+}
+function rotateXToggle(){
+	rotateX = !rotateX;
+}
+function rotateYToggle(){
+	rotateY = !rotateY;
+}
+
 var vertexShaderText = 
 `
 precision mediump float;
@@ -95,10 +108,10 @@ var InitDemo = function() {
 		1.0, 1.0, -1.0,    0.9, 0.5, 0.5,
 
 		// Left
-		-1.0, 1.0, 1.0,    0.5, 0.4, 1.0,
-		-1.0, -1.0, 1.0,   0.5, 0.5, 0.5,
-		-1.0, -1.0, -1.0,  0.5, 0.3, 0.2,
-		-1.0, 1.0, -1.0,   0.9, 0.5, 0.5,
+		-1.0, 1.0, 1.0,    0.8, 0.6, 0.4,
+		-1.0, -1.0, 1.0,   0.2, 0.3, 0.1,
+		-1.0, -1.0, -1.0,  0.1, 0.6, 0.3,
+		-1.0, 1.0, -1.0,   0.1, 1.0, 0.2,
 
 		// Right
 		1.0, 1.0, 1.0,    0.5, 0.4, 1.0,
@@ -211,22 +224,36 @@ var InitDemo = function() {
 	glMatrix.mat4.identity(identityMatrix);
 	var angle = 0;
 	var loop = function(){
-		angle = performance.now() / 1000 / 8 * 2 * Math.PI;
-		glMatrix.mat4.rotate(yRotationMatrix, identityMatrix, angle, [0, 1, 0]); // Output, Original Matrix, Angle, Axis of rotation (world)
-		glMatrix.mat4.rotate(xRotationMatrix, identityMatrix, angle, [1, 0, 0]);
-		glMatrix.mat4.mul(worldMatrix, xRotationMatrix, yRotationMatrix);
-		gl.uniformMatrix4fv(matWorldUniformLocation, gl.FALSE, worldMatrix);
-		gl.clearColor(0.1, 0.2, 0.3, 0.4);
-		gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
-
-		gl.drawElements(gl.TRIANGLES, boxIndices.length, gl.UNSIGNED_SHORT, 0);
+		if(toggle){
+			count = count + 1;
+			//angle = (performance.now() - performanceSinceLastToggled)/ 1000 / 8 * 2 * Math.PI;
+			angle = count / 100 /8 * 2 * Math.PI;
+			performanceSinceLastToggled = 0;
+			if(rotateY){
+				yCount = yCount + 1;
+				angle = yCount / 100/ 8 * 2 * Math.PI;
+				glMatrix.mat4.rotate(yRotationMatrix, identityMatrix, angle, [0, 1, 0]); // Output, Original Matrix, Angle, Axis of rotation (world)
+			}
+			if(rotateX){
+				xCount = xCount + 1;
+				angle = xCount / 100 / 8 * 2 * Math.PI;
+				glMatrix.mat4.rotate(xRotationMatrix, identityMatrix, angle, [1, 0, 0]);
+			}
+			glMatrix.mat4.mul(worldMatrix, xRotationMatrix, yRotationMatrix);
+			gl.uniformMatrix4fv(matWorldUniformLocation, gl.FALSE, worldMatrix);
+			gl.clearColor(0.1, 0.2, 0.3, 0.4);
+			gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+			gl.drawElements(gl.TRIANGLES, boxIndices.length, gl.UNSIGNED_SHORT, 0);
+		}
+		if(toggle) { document.getElementById("general").style.backgroundColor = "green" }
+		else { document.getElementById("general").style.backgroundColor = "red" }
+		if(rotateY) { document.getElementById("y").style.backgroundColor = "green" }
+		else{ document.getElementById("y").style.backgroundColor = "red" }
+		if(rotateX) { document.getElementById("x").style.backgroundColor = "green" }
+		else { document.getElementById("x").style.backgroundColor = "red" }
 
 		requestAnimationFrame(loop);
 	};
 	requestAnimationFrame(loop);
 
-	
-	
-
-	
 }

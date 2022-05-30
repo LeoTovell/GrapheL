@@ -5,6 +5,9 @@ class DatabaseManager:
 		#Params: database name
 		self.database = database
 		conn = sqlite3.connect(database)
+		# Create USER TABLE
+		command = "CREATE TABLE IF NOT EXISTS USER (id INTEGER PRIMARY KEY, username TEXT NOT NULL, password TEXT NOT NULL, email TEXT)"
+		conn.execute(command)
 		conn.close()
 
 	def connect(self):

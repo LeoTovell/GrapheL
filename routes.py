@@ -1,4 +1,4 @@
-from __main__ import app
+from __main__ import app, logonManager
 from flask import render_template, url_for
 
 @app.route("/")
@@ -16,3 +16,7 @@ def register():
 @app.route("/manage-db")
 def manage_database():
 	return render_template("manage-db.html", database = "users")
+
+@app.route("/profile")
+def profile():
+	return render_template("profile.html", user=logonManager.get_user())
