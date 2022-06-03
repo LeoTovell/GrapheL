@@ -1,13 +1,35 @@
 body{
 	padding: 10px;
-	font-family: arial;
+
 	text-align: center;
-	font-weight: bold;
+
+	background-color: #495867;
+	color: white;
 }
 
-input{
-	margin: 5px;
-	padding: 10px;
-	background-color: red;
-	width: 100%;
+
+.button {
+  background-color: #6F6E8A; /* Green */
+  border: none;
+  border-radius: 12px;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  -webkit-transition-duration: 0.2s; /* Safari */
+  transition-duration: 0.2s;
+  width: 30%;
+  margin-top: 10%;
+  font-family: Flamenco;
+  font-size: 30px;
 }
+
+.button2:hover {
+  box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
+  font-size: 35px;
+} 
+

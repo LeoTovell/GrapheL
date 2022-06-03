@@ -6,7 +6,59 @@
 
 {% block body %}
 
+<ul class="navul">
+  	<li><a href={{url_for("index")}}>Home</a></li>
+  	<li><a href={{url_for("updates")}}>Updates</a></li>
+  	<li><a href={{url_for("tutorial")}}>Tutorial</a></li>
+  	{% if logon_manager.is_user_logged_on() %}
+      {% if logon_manager.is_admin() %}
+       <li><a href={{url_for("admin")}}>Admin</a></li>
+      {% endif %}
+    {% endif %}
+  	{% if logon_manager.is_user_logged_on() == False %}
+  	<li style="float:right;" class=active><a href={{url_for("login")}}>Login</a></li>
+  	{% else %}
+  	<li style="float:right;"><a href={{url_for("profile")}}>Profile</a></li>
+  	{% endif %}
+</ul>
 
+<div class="main-container">
+  <div class="fixed">
+
+    {% for message in flashed_messages %}
+        {% if message %}
+          <ul class=flashes>
+            <li>{{ message }}</li>
+          </ul>
+        {% endif %}
+      {% endfor %}
+
+       <p hidden>{{ flashed_messages.clear() }}</p>
+
+    <div class="form">
+      <div class="title">Log In</div>
+      <div class="input-container ic1">
+        <input id="username" class="input" type="text" placeholder="Username">
+      </div>
+      <div class="input-container ic2">
+        <input id="password" class="input" type="password" placeholder="Password">
+      </div>
+      <button type="text" class="submit" onclick="get_send_data()">Log In</button>
+
+      <p><a style="text-align: center; color: white; font-family: sans-serif;" href={{url_for("register")}}>No Account? Register Here</a></p>
+    </div>
+
+  </div>
+
+  <div class="flex-item">
+
+  </div>
+</div>
 
 {% endblock %}
 
+{% block script %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js" integrity="sha512-q/dWJ3kcmjBLU4Qc47E4A9kTB4m3wuTY7vkFJDTZKjTs8jhyGQnaUrxa0Ytd0ssMZhbNua9hE+E7Qv1j+DyZwA==" crossorigin="anonymous"></script>
+<script src={{url_for('static', filename='js/login.js')}}></script>
+
+{% endblock %}

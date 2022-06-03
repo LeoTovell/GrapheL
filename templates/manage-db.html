@@ -1,9 +1,27 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<title>DB Manager</title>
-</head>
-<body>
-<p1>{{database}}</p1>
-</body>
-</html>
+{% extends "base.html" %}
+
+{% block title %}Admin | DB{% endblock %}
+
+{% block body %}
+<!-- {{ manager.connect() }}  RUN BUT NO OUTPUT-->
+
+<table>
+	<tr>
+		<th>userID</th>
+		<th>Username</th>
+		<th>Hashed PW</th>
+		<th>Email</th>
+	</tr>
+{% for row in manager.get_cursor().execute("select * from USERS") %}
+<!-- Table -->
+	<tr>
+		<td>{{row[0]}}</td>
+		<td>{{row[1]}}</td>
+		<td>{{row[2]}}</td>
+		<td>{{row[3]}}</td>
+	</tr>
+{% endfor %}
+</table>
+
+
+{% endblock %}

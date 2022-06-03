@@ -2,9 +2,60 @@
 <html>
 <head>
 	<title>{%block title%}{%endblock%} - GrapheL</title>
+	{% block styles %} {% endblock styles %}
 	{% block head %} {% endblock head %}
 </head>
-<body>
+<body style="margin: 0; padding: 0; overflow: hidden">
+	<style>
 
+		@font-face{
+			font-family: Flamenco;
+			src: url({{url_for("static", filename="assets/font/Flamenco-Regular.ttf")}});
+
+		}
+
+		body{
+			font-family: Flamenco;
+			background-color: #495867;
+		}
+
+		.navul{
+			list-style-type: none;
+			margin: 0;
+			padding: 0;
+			overflow: hidden;
+			/*background-color: purple;*/
+			background-color: #5A6379;
+		}
+
+		li{
+			float: left;
+			text-decoration: none;
+			width: 10vw;
+		}
+
+		li a{
+			display: block;
+			color: white;
+			text-align: center;
+			padding: 14px 16px;
+			text-decoration: none;
+		}
+
+		li a:hover:not(.active){
+			background-color: #897797;
+		}
+
+		.active{
+			background-color: #6F6E8A;
+		}
+	</style>
+	{% block body %}
+
+	{% endblock body %}
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js" integrity="sha512-q/dWJ3kcmjBLU4Qc47E4A9kTB4m3wuTY7vkFJDTZKjTs8jhyGQnaUrxa0Ytd0ssMZhbNua9hE+E7Qv1j+DyZwA==" crossorigin="anonymous"></script>
+	<script src={{url_for("static", filename="js/base.js")}}></script>
+	{% block script %}
+	{% endblock %}
 </body>
 </html>

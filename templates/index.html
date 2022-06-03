@@ -1,41 +1,62 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<title>webGL | Rotating Cube</title>
-	<link rel="stylesheet" type="text/css" href={{url_for('static', filename='styles/index.css')}}>
-</head>
-<body onload="InitDemo();">
-	<canvas id="rotatecube" width=800 height=600>
-		Your browser is unsupported (html5)
-	</canvas>
+{% extends "base.html" %}
 
-	<br />
-	<i>By Leo Tovell - aided by <a href="https://www.youtube.com/c/IndigoCode">Indigo Coding</a>.</i>
-	<form action={{url_for("login")}}>
-		<input type="submit" value="Login">
-	</form>
-	<form action={{url_for("register")}}>
-		<input type="submit" value="Register">
-	</form>
-	<form action={{url_for("manage_database")}}>
-		<input type="submit" value="Manage Database">
-	</form>
-	<form action={{url_for("index")}}>
-		<input type="submit" value="Here!">
-	</form>
-	<br>
-	<form onsubmit="toggled(); return false">
-		<input id="general" type="submit" value="Toggle Animation">
-	</form>
+{% block title %}Get Started{% endblock %}
+{% block styles %}
+<link rel="stylesheet" type="text/css" href={{url_for('static', filename='styles/index.css')}}>
+{% endblock %}
 
-	<form onsubmit="rotateXToggle(); return false">
-		<input id="x" type="submit" value="Toggle Toggle Rotate X">
-	</form>
+{% block script %}
+<!-- <script src={{url_for('static', filename='js/index.js')}}> -->
+{% endblock %}
 
-	<form onsubmit="rotateYToggle(); return false">
-		<input id="y" type="submit" value="Toggle Rotate Y">
-	</form>
 
-	<script src={{url_for('static', filename='js/gl-matrix.js')}}></script>
-	<script src={{url_for('static', filename='js/cube.js')}}></script>
-</html>
+{% block body %}
+
+<ul class="navul">
+  	<li><a class=active href={{url_for("index")}}>Home</a></li>
+  	<li><a href={{url_for("updates")}}>Updates</a></li>
+  	<li><a href={{url_for("tutorial")}}>Tutorial</a></li>
+  	{% if logon_manager.is_user_logged_on() %}
+      {% if logon_manager.is_admin() %}
+  	   <li><a href={{url_for("admin")}}>Admin</a></li>
+      {% endif %}
+  	{% endif %}
+  	{% if logon_manager.is_user_logged_on() == False %}
+  	<li style="float:right;"><a href={{url_for("login")}}>Login</a></li>
+  	{% else %}
+  	<li style="float:right;"><a href={{url_for("profile")}}>{{logon_manager.get_user()}}</a></li>
+  	{% endif %}
+</ul>
+
+{% for message in flashed_messages %}
+    {% if message %}
+      <ul class=flashes>
+        <li>{{ message }}</li>
+    </ul>
+    {% endif %}
+{% endfor %}
+
+<p hidden>{{ flashed_messages.clear() }}</p>
+
+<div id="LogoTitle" style="padding-top: 50px;">
+	<div style="display: flex; align-items: center; justify-content: center;">
+		<div style="flex-basis: 40%">
+			<img width="100%" src={{url_for('static', filename="assets/logo/grapheLW.png")}}>
+		</div>
+		<!-- <div style="border-left: 6px solid white; left: 50%; margin-left: -3px;"></div> -->
+		<div style="font-size: 300%; padding-left: 200px;">
+			<p>Design <b>and</b> manipulate<br> computational graphs</p>
+		</div>
+	</div>
+</div>
+
+<div>
+  <form action={{url_for("graph_app")}}>
+    <input type="submit" value="Get Started!" class="button button2">
+	<!-- <button href='#' class="button button2">Get Started</button> -->
+  </form>
+</div>
+
+<!-- {{logon_manager.get_user()}} -->
+
+{% endblock %}

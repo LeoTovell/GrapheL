@@ -1,13 +1,11 @@
 {% extends "base.html" %}
 
-{% block title %}{{logon_manager.get_user()}} | Profile{% endblock %}
-
 {% block body %}
 
 <ul class="navul">
   	<li><a href={{url_for("index")}}>Home</a></li>
   	<li><a href={{url_for("updates")}}>Updates</a></li>
-  	<li><a href={{url_for("tutorial")}}>Tutorial</a></li>
+  	<li><a class=active href={{url_for("tutorial")}}>Tutorial</a></li>
   	{% if logon_manager.is_user_logged_on() %}
       {% if logon_manager.is_admin() %}
        <li><a href={{url_for("admin")}}>Admin</a></li>
@@ -16,7 +14,7 @@
   	{% if logon_manager.is_user_logged_on() == False %}
   	<li style="float:right;"><a href={{url_for("login")}}>Login</a></li>
   	{% else %}
-  	<li style="float:right;"><a class=active href={{url_for("profile")}}>{{logon_manager.get_user()}}</a></li>
+  	<li style="float:right;"><a href={{url_for("profile")}}>{{logon_manager.get_user()}}</a></li>
   	{% endif %}
 </ul>
 
