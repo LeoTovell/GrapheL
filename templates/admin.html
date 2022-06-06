@@ -10,13 +10,13 @@
   	<li><a href={{url_for("tutorial")}}>Tutorial</a></li>
   	{% if logon_manager.is_user_logged_on() %}
       {% if logon_manager.is_admin() %}
-        <li><a href={{url_for("admin")}}>Admin</a></li>
+        <li><a class=active href={{url_for("admin")}}>Admin</a></li>
       {% endif %}
     {% endif %}
   	{% if logon_manager.is_user_logged_on() == False %}
   	<li style="float:right;"><a href={{url_for("login")}}>Login</a></li>
   	{% else %}
-  	<li style="float:right;"><a href={{url_for("profile")}}>Profile</a></li>
+  	<li style="float:right;"><a href={{url_for("profile")}}>{{logon_manager.get_user()}}</a></li>
   	{% endif %}
 </ul>
 

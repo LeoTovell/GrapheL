@@ -1,5 +1,5 @@
 from __main__ import app, logonManager, userDBManager, graphDBManager, flashed_messages
-from flask import render_template, url_for, flash, redirect
+from flask import render_template, url_for, redirect
 # from sockets import redirect_to_url
 
 @app.route("/")
@@ -52,19 +52,16 @@ def admin():
 def logout():
 	if logonManager.get_user() != None:
 		logonManager.log_out_user()
-		flash("Logged out!", "info")
+		flashed_messages.append("Logged out!")
 	else:
-		flash("You must be logged in to log out!")
+		flashed_messages.append("You must be logged in to log out!")
 	return redirect(url_for("index"))
 
 @app.route("/graph/<name>")
 def graph_all(name):
-	if(name == "hey"):
-		return "awesome"
-	else:
-		flash(f"www.leotovell.com/graph/{name} was not found. e404!", "info")
-		return redirect(url_for("index"))
+	flashed_messages.append(f"www.leotovell.com/graph/{name} was not found on the server")
+	return redirect(url_for("index"))
 
 @app.route("/graph/app")
 def graph_app():
-	return "LOL"
+	return "Under Development"

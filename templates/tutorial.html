@@ -19,3 +19,13 @@
 </ul>
 
 {% endblock %}
+
+{% block script %}
+<script>
+socket.emit("test_sid", "lmaooooo");
+
+socket.on("test_message", function(data) {
+  console.log(data);
+})
+</script>
+{% endblock %}

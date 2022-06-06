@@ -9,6 +9,10 @@ socket.on("message", function(msg){
 	console.log(msg);
 });
 
+socket.on("custom_message", function(data){
+	console.log(data);
+})
+
 let user=null;
 let pw=null;
 
