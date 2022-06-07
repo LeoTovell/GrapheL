@@ -33,7 +33,7 @@
 <div class="canvas-container" style="float:right; border: 2px solid green; padding: 10px; margin: 10px; position: relative; height: auto; width: 100%">
 <canvas id="canvas" width="600px" height="1000px">WebGL is not supported on your browser</canvas>
 </div>
-<button type="text" id="initButton" onclick="hideButton(); init()">Start App</button>
+<!-- <button type="text" id="initButton" onclick="hideButton(); init()">Start App</button> -->
 </div>
 {% endblock %}
 
@@ -41,3 +41,5 @@
 <script src={{url_for("static", filename="js/gl-matrix.js")}}></script>
 <script src={{url_for("static", filename="js/app.js")}}></script>
 {% endblock %}
+
+{% block bodyOnLoad %}onload="init()"{% endblock %}

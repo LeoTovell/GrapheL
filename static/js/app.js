@@ -22,7 +22,7 @@ if(!gl){
 	// Each iteration get new positions, or if the list is unchanged, skip over.
 
 	gl.beginPath();
-	gl.arc(54, 12, 5, 2, 2 * Math.PI);
+	gl.arc(300, 250, 200, 0, 2 * Math.PI);
 	gl.stroke();
 
 };

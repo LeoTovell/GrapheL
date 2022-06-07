@@ -5,7 +5,7 @@
 	{% block styles %} {% endblock styles %}
 	{% block head %} {% endblock head %}
 </head>
-<body style="margin: 0; padding: 0; overflow: hidden">
+<body {% block bodyOnLoad %}{% endblock %} style="margin: 0; padding: 0; overflow: hidden">
 	<style>
 
 		@font-face{
