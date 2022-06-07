@@ -2,6 +2,12 @@ from __main__ import app, logonManager, userDBManager, graphDBManager, flashed_m
 from flask import render_template, url_for, redirect
 # from sockets import redirect_to_url
 
+@app.route('/', defaults={'path': ''})
+@app.route('/<path:path>')
+def catch_all(path):
+    # returns a 200 (not a 404) with the following contents:
+    return f"Page not found, www.leotovell.co.uk/{path}"
+
 @app.route("/")
 def index():
 	return render_template("index.html")
@@ -45,9 +51,6 @@ def admin():
 		flashed_messages.append("You need to log in before accessing /admin")
 		return redirect(url_for("login"))
 
-		
-
-
 @app.route("/logout")
 def logout():
 	if logonManager.get_user() != None:
@@ -64,4 +67,4 @@ def graph_all(name):
 
 @app.route("/graph/app")
 def graph_app():
-	return "Under Development"
+	return render_template("app.html")

@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block title %}App{% endblock %}
+
+{% block body %}
+
+<ul class="navul">
+  	<li><a href={{url_for("index")}}>Home</a></li>
+  	<li><a href={{url_for("updates")}}>Updates</a></li>
+  	<li><a href={{url_for("tutorial")}}>Tutorial</a></li>
+  	{% if logon_manager.is_user_logged_on() %}
+      {% if logon_manager.is_admin() %}
+       <li><a href={{url_for("admin")}}>Admin</a></li>
+      {% endif %}
+    {% endif %}
+  	{% if logon_manager.is_user_logged_on() == False %}
+  	<li style="float:right;"><a href={{url_for("login")}}>Login</a></li>
+  	{% else %}
+  	<li style="float:right;"><a href={{url_for("profile")}}>Profile</a></li>
+  	{% endif %}
+</ul>
+
+<!-- 			Program 			-->
+
+<div class="page-container" style="padding: 20px; display: flex; align-items: stretch; height: 100%; position: relative">
+<!-- Controls -->
+<div class="controls-container" style="float:left; border: 2px solid red; padding: 10px; margin: 10px; position: relative; height: auto; width: 20%">
+
+</div>
+
+
+<!-- Canvas -->
+<div class="canvas-container" style="float:right; border: 2px solid green; padding: 10px; margin: 10px; position: relative; height: auto; width: 100%">
+<canvas id="canvas" width="600px" height="1000px">WebGL is not supported on your browser</canvas>
+</div>
+<button type="text" id="initButton" onclick="hideButton(); init()">Start App</button>
+</div>
+{% endblock %}
+
+{% block script %}
+<script src={{url_for("static", filename="js/gl-matrix.js")}}></script>
+<script src={{url_for("static", filename="js/app.js")}}></script>
+{% endblock %}
