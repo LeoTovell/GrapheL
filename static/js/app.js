@@ -3,8 +3,23 @@
 var init = function(){
 	console.log("Starting graph program.")
 
-var canvas = document.getElementById("canvas");
-var gl = canvas.getContext("2d"); 
+	// CANVAS CREATION
+
+	var leftDiv = document.getElementById("right-div");
+	// var canvas = document.createElement('canvas');
+
+	console.log(leftDiv.offsetWidth)
+
+	var canvas = document.createElement("canvas");
+
+	canvas.id = "canvas";
+	canvas.width = leftDiv.offsetWidth;
+	canvas.height = leftDiv.offsetHeight;
+	
+	leftDiv.appendChild(canvas);
+
+	var canvas = document.getElementById("canvas");
+	var gl = canvas.getContext("2d");
 
 if (!gl){
 	console.log("Your browser does not support webGL without falling back on experimental.")
@@ -24,11 +39,9 @@ if(!gl){
 	gl.beginPath();
 	gl.arc(300, 250, 200, 0, 2 * Math.PI);
 	gl.stroke();
-
 };
 
 
 var hideButton = function(){
-	console.log("no")
 	document.getElementById("initButton").hidden = true;
 }
