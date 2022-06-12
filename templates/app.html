@@ -4,7 +4,7 @@
 
 {% block body %}
 
-<ul class="navul">
+<ul class="navul" id="navigationul">
   	<li><a href={{url_for("index")}}>Home</a></li>
   	<li><a href={{url_for("updates")}}>Updates</a></li>
   	<li><a href={{url_for("tutorial")}}>Tutorial</a></li>
@@ -22,19 +22,10 @@
 
 <!-- 			Program 			-->
 
-<div class="page-container" style="padding: 20px; display: flex; align-items: stretch; height: 100%; position: relative">
-<!-- Controls -->
-<div class="controls-container" style="float:left; border: 2px solid red; padding: 10px; margin: 10px; position: relative; height: auto; width: 20%">
-
+<div id="app_container" style="display:flex; justify-content: center; vertical-align: middle; align-items: center; padding: 20px; height: 90%; width: 98%; position: absolute"> <!-- no, i dont know why these values have to be so specific -->
+  <button id ="initButton" onclick="init()">Start App</button>
 </div>
 
-
-<!-- Canvas -->
-<div class="canvas-container" style="float:right; border: 2px solid green; padding: 10px; margin: 10px; position: relative; height: auto; width: 100%">
-<canvas id="canvas" width="600px" height="1000px">WebGL is not supported on your browser</canvas>
-</div>
-<!-- <button type="text" id="initButton" onclick="hideButton(); init()">Start App</button> -->
-</div>
 {% endblock %}
 
 {% block script %}
@@ -42,4 +33,4 @@
 <script src={{url_for("static", filename="js/app.js")}}></script>
 {% endblock %}
 
-{% block bodyOnLoad %}onload="init()"{% endblock %}
+{% block bodyOnLoad %}{% endblock %} <!--onload="init()"-->

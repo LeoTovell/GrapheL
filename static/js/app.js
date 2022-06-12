@@ -1,29 +1,71 @@
 
 
+function mousemove(canvas, event){
+	var rect = canvas.getBoundingClientRect();
+
+	// console.log("x = " + event.clientX - rect.left);
+	// console.log("y = " + event.clientY - rect.top);
+
+	if(event.buttons == 1){
+	console.log("X: " + Math.round(event.clientX - rect.left));
+	console.log("Y: " + Math.round(event.clientY - rect.top));
+}
+	return {
+		x: event.clientX - rect.left,
+		y: event.clientY - rect.top
+	};
+}
+
 function init(){
 	console.log("Starting graph program.")
+	document.getElementById("initButton").remove()
 
 	// CANVAS CREATION
 
-	var rightDiv = document.getElementById("right-div");
-	// var canvas = document.createElement('canvas');
+	// var rightDiv = document.getElementById("canvas-container");
+	// // var canvas = document.createElement('canvas');
 
-	console.log(rightDiv.offsetWidth)
+	// console.log(rightDiv.offsetWidth)
+	// console.log(rightDiv.offsetHeight)
 
+	
+	
+	// rightDiv.appendChild(canvas);
+
+
+	// CREATE UI
+
+	// var app_container = document.createElement("div");
+	var app_container = document.getElementById("app_container")
+	var control_div = document.createElement("div");
+	var canvas_div = document.createElement("div");
 	var canvas = document.createElement("canvas");
 
 	canvas.id = "canvas";
-	canvas.width = rightDiv.offsetWidth;
-	canvas.height = rightDiv.offsetHeight;
-	
-	rightDiv.appendChild(canvas);
+	canvas.setAttribute("onmousemove", "mousemove(this, event)")
 
-	var canvas = document.getElementById("canvas");
+	control_div.id = "controls-container";
+	canvas_div.id = "canvas-container";
+	// app_container.id = "page-container";
+
+	// app_container.style = "padding: 20px; display: flex; align-items: stretch; height: 100%; position: relative"
+	control_div.style = "float:left; border: 2px solid red; position: relative; height: 100%; width: 18%";
+	canvas_div.style = "float:right; border: 2px solid green; margin-left: 10px; position: relative; height: 100%; width: 78%";
+
+
+	app_container.appendChild(control_div);
+	app_container.appendChild(canvas_div);
+	document.body.appendChild(app_container);
+
+	canvas.width = canvas_div.offsetWidth;
+	canvas.height = canvas_div.offsetHeight;
+	canvas_div.appendChild(canvas)
+
 	var gl = canvas.getContext("2d");
 
 if (!gl){
 	console.log("Your browser does not support webGL without falling back on experimental.")
-	// gl = canvas.getContext('experimental-webgl');
+	gl = canvas.getContext('experimental-webgl');
 	}
 
 if(!gl){
@@ -50,7 +92,7 @@ if(!gl){
 	gl.closePath();
 
 	gl.font = "20px serif";
-	gl.strokeText("A", 295, 207)
+	gl.strokeText("A", 293, 207)
 
 
 	gl.beginPath();
@@ -61,6 +103,8 @@ if(!gl){
 	gl.closePath();
 
 	gl.strokeText("B", 495, 408)
+
+
 }
 
 
