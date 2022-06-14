@@ -41,4 +41,5 @@ def test_sid(data):
 	socketio.send("test_message", data, room=request.sid)
 
 def redirect_to_url(url, sid):
-	socketio.emit("redirect", url, room=sid)	
+	print(url, flush=True)
+	socketio.emit("redirect", url) #room=sid)
