@@ -1,4 +1,20 @@
+var gl;
+var graph = [];
 
+console.log(socket);
+
+socket.on("test_event", function(data){
+	console.log("test data");
+})
+
+socket.on("graph", ({vertices, edges}) => {
+	graph = [vertices, edges]
+	console.log("Graph recieved");
+})
+
+function request_graph(){
+	socket.emit("request_graph");
+}
 
 function mousemove(canvas, event){
 	var rect = canvas.getBoundingClientRect();
@@ -61,22 +77,49 @@ function init(){
 	canvas.height = canvas_div.offsetHeight;
 	canvas_div.appendChild(canvas)
 
-	var gl = canvas.getContext("2d");
+	gl = canvas.getContext("2d");
 
-if (!gl){
-	console.log("Your browser does not support webGL without falling back on experimental.")
-	gl = canvas.getContext('experimental-webgl');
-	}
+	if (!gl){
+		console.log("Your browser does not support webGL without falling back on experimental.")
+		gl = canvas.getContext('experimental-webgl');
+		}
 
-if(!gl){
-	alert("Your browser does not support webGL")
-	}
+	if(!gl){
+		alert("Your browser does not support webGL")
+		}
 
 	// gl.clearColor(0.75, 0.85, 0.8, 1.0);
 	// gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
 	// Begin Loop
 	// Each iteration get new positions, or if the list is unchanged, skip over.
+
+	graph = request_graph();
+
+	// while(graph == null){
+		// console.log("waiting")
+	// }
+}
+
+function updateGraphAttribute(attribute, value){
+	socket.emit("updateGraphAttribute", {attribute, value});
+}
+
+function draw(){
+
+	vertices = graph[0]
+	edges = graph[1];
+
+	for( let i = 0; i < edges.length; i++){
+		edge = edges[i]
+		gl.beginPath();
+		gl.moveTo(edge[0], edge[1]);
+		gl.lineTo(edge[2], edge[3]);
+		gl.stroke();
+		gl.closePath();
+	};
+
+	// for(vertex in vertices)
 
 	gl.beginPath();
 	gl.moveTo(300, 200);
@@ -103,7 +146,6 @@ if(!gl){
 	gl.closePath();
 
 	gl.strokeText("B", 495, 408)
-
 
 }
 

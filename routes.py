@@ -14,10 +14,16 @@ def index():
 
 @app.route("/login")
 def login():
+	if logonManager.is_user_logged_on():
+		flashed_messages.append("You're already logged on!")
+		return redirect(url_for("profile"))
 	return render_template("login.html")
 
 @app.route("/register")
 def register():
+	if logonManager.is_user_logged_on():
+		flashed_messages.append("You're already logged on!")
+		return redirect(url_for("profile"))
 	return render_template("register.html")
 
 @app.route("/manage-db")
@@ -26,6 +32,9 @@ def manage_database():
 
 @app.route("/profile")
 def profile():
+	if not logonManager.is_user_logged_on():
+		flashed_messages.append("You must be logged in to access your profile.")
+		return redirect(url_for("login"))
 	return render_template("profile.html")
 
 # Updates - Provides link to github and project updates/progress | NO Validation needed

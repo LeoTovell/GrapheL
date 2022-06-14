@@ -40,6 +40,12 @@ def test_sid(data):
 	print(request.sid, flush=True)
 	socketio.send("test_message", data, room=request.sid)
 
+@socketio.on("request_graph")
+def transmit_graph():
+	print("graph requested", flush=True)
+	socketio.emit("graph", {"vertices": [1,2,4,5], "edges": [[1,4],[2,5],[5,1]]})
+
 def redirect_to_url(url, sid):
 	print(url, flush=True)
 	socketio.emit("redirect", url) #room=sid)
+
