@@ -22,7 +22,15 @@
 
 <!-- 			Program 			-->
 
-<div id="app_container" style="display:flex; justify-content: center; vertical-align: middle; align-items: center; padding: 20px; height: 90%; width: 98%; position: absolute"> <!-- no, i dont know why these values have to be so specific -->
+<div id="app-container" style="display:flex; justify-content: center; vertical-align: middle; align-items: center; padding: 20px; height: 90%; width: 98%; position: absolute"> <!-- no, i dont know why these values have to be so specific -->
+  <div id="control-div" style="float:left; border: 2px solid red; position: relative; height: 100%; width: 18%">
+    
+    <button onclick="canvas_clear()">Clear</button>
+    <button onclick="canvas_draw_square()">Sqaure</button>
+    <button onclick="incrementPos(3)">Increment</button>
+
+  </div>
+  <div id="canvas-div" style="float:right; border: 2px solid green; margin-left: 10px; position: relative; height: 100%; width: 78%"></div>
   <button id ="initButton" onclick="init()">Start App</button>
 </div>
 
@@ -33,4 +41,4 @@
 <script src={{url_for("static", filename="js/app.js")}}></script>
 {% endblock %}
 
-{% block bodyOnLoad %}{% endblock %} <!--onload="init()"-->
+{% block bodyOnLoad %}onload="init()"{% endblock %} <!--onload="init()"-->
