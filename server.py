@@ -16,7 +16,12 @@ socketio = SocketIO(app)
 userDBManager = DatabaseManager("users.db", "users")
 graphDBManager = DatabaseManager("graphs.db", "graphs")
 logonManager = LogonManager(userDBManager)
+graph = Graph("graph")
+graph.create_default_values()
 flashed_messages = []
+
+def get_graph():
+	return graph
 
 # userDBManager.create_user("testUssser", "password123")
 

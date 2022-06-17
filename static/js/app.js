@@ -1,6 +1,17 @@
 var ctx;
 var running = true;
 var x = y = 200;
+var graph;
+
+function request_graph(){
+	socket.emit("request_graph");
+	console.log("Graph Reqeusted")
+}
+
+socket.on("receive_graph", function(graph){
+	graph = graph;
+	console.log(graph)
+});
 
 function mousemove(canvas, event){
 	var rect = canvas.getBoundingClientRect();
@@ -98,7 +109,7 @@ function hideButton(){
 	document.getElementById("initButtonDiv").style.display = "None"
 }
 
-function incrementPos(num){
-	x += num;
-	y += num;
+function incrementPos(x1, y1){
+	x += x1;
+	y += y1;
 }

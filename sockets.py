@@ -1,4 +1,4 @@
-from __main__ import socketio, logonManager, flashed_messages
+from __main__ import socketio, logonManager, flashed_messages, get_graph
 from flask import redirect, flash, url_for, request
 
 @socketio.on("login")
@@ -39,6 +39,13 @@ def test_sid(data):
 	# print(data, flush=True)
 	print(request.sid, flush=True)
 	socketio.send("test_message", data, room=request.sid)
+
+@socketio.on("request_graph")
+def request_graph():
+	print("Graph Requested", flush=True)
+	graph = get_graph()
+	print(graph.compile_adjacency_list_debug(), flush=True)
+	socketio.emit("receive_graph", {"graph": graph.compile_adjacency_list_debug()})
 
 def redirect_to_url(url, sid):
 	print(url, flush=True)
