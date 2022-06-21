@@ -62,3 +62,12 @@ class DatabaseManager:
 			registered = False
 		return registered
 		
+m = DatabaseManager("users.db", "users")
+conn = sqlite3.connect("users.db")
+cur = conn.cursor()
+cur.execute("SELECT * FROM USERS WHERE username='leo'")
+results = cur.fetchall()
+if results:
+	print("hey")
+else:
+	pass

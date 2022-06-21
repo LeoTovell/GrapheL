@@ -1,6 +1,7 @@
-from __main__ import app, logonManager, userDBManager, graphDBManager, flashed_messages
-from flask import render_template, url_for, redirect
+from __main__ import app, logonManager, userDBManager, graphDBManager, flashed_messages, session
+from flask import render_template, url_for, redirect, copy_current_request_context
 # from sockets import redirect_to_url
+import random
 
 @app.route('/', defaults={'path': ''})
 @app.route('/<path:path>')
@@ -14,6 +15,7 @@ def index():
 
 @app.route("/login")
 def login():
+	session['user'] = "leo"
 	return render_template("login.html")
 
 @app.route("/register")
@@ -68,3 +70,9 @@ def graph_all(name):
 @app.route("/graph/app")
 def graph_app():
 	return render_template("app.html")
+
+@app.route("/test123")
+def test():
+	session['user'] = random.randint(1,10)
+	print(session, flush=True)
+	return render_template("test.html")
