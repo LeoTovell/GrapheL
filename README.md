@@ -1,4 +1,4 @@
-# Y13Project
+# GrapheL
 AQA NEA Computer Science Project
 
 ## Note
