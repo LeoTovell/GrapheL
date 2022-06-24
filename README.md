@@ -1,6 +1,8 @@
 # Y13Project
 AQA NEA Computer Science Project
 
+## Note
+The project structure is in a very messy state, I'll tidy it up later!
 
 ### Brief
 A website which provides a GUI to interact with graph creation and traversal software. The website will be powered by python backend and frontend graphics powered by WebGL, and basic framework using html5, JS, CSS.\
