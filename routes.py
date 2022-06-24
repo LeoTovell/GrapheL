@@ -1,5 +1,5 @@
 from __main__ import app, logonManager, userDBManager, graphDBManager, flashed_messages, session
-from flask import render_template, url_for, redirect, copy_current_request_context
+from flask import render_template, url_for, redirect, copy_current_request_context, stream_with_context, Response
 # from sockets import redirect_to_url
 import random
 
@@ -15,7 +15,6 @@ def index():
 
 @app.route("/login")
 def login():
-	session['user'] = "leo"
 	return render_template("login.html")
 
 @app.route("/register")
@@ -43,6 +42,7 @@ def tutorial():
 # Admin - Provides access to admin functions, eg: global user + graph management | Is logged in? Is admin?
 @app.route("/admin")
 def admin():
+	# if session.get("user")
 	if logonManager.is_user_logged_on():
 		if not logonManager.is_admin():
 			flashed_messages.append("You don't have the required privileges to access /admin")
@@ -69,6 +69,11 @@ def graph_all(name):
 
 @app.route("/graph/app")
 def graph_app():
+	if "user" in session:
+		session.pop("user")
+	if not session.get("user"):
+		print("no!!!", flush=True)
+		return redirect(url_for("login"))
 	return render_template("app.html")
 
 @app.route("/test123")

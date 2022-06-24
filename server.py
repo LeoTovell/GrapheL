@@ -37,6 +37,11 @@ def get_graph():
 def inject_stage_and_region():
     return dict(logon_manager = logonManager, flashed_messages = flashed_messages)
 
+def _session_save(session):
+	from flask.globals import _request_ctx_stack
+	app.session.interface.save_session(app, session, flask.Response())
+
+
 # Import routes managed in external file (for ease) !! MUST BE AFTER APP DEFINITION AND BEFORE SCRIPT RUN !!
 import routes
 import sockets

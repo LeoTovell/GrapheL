@@ -72,5 +72,16 @@ class LogonManager:
 				error = "Password incorrect."
 		return error
 
-m = LogonManager("users.db")
-print(m.login_user("JOEY", "pp"))
+	def get_user(self):
+		return ["leo"]
+
+	def is_logged_in(self):
+		return True
+
+	def is_admin(self):
+		return True
+		user = get_user()
+		if user[4] == "admin":
+			return True
+		else:
+			return False
