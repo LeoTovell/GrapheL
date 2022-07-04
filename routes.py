@@ -1,5 +1,5 @@
 from __main__ import app, logonManager, userDBManager, graphDBManager, flashed_messages, session
-from flask import render_template, url_for, redirect, copy_current_request_context, stream_with_context, Response
+from flask import render_template, url_for, redirect, copy_current_request_context, stream_with_context, Response, _request_ctx_stack
 # from sockets import redirect_to_url
 import random
 
@@ -11,6 +11,8 @@ def catch_all(path):
 
 @app.route("/")
 def index():
+	if not session.get("user"):
+		session["user"] = random.randint(1,200000)
 	return render_template("index.html")
 
 @app.route("/login")
@@ -69,8 +71,8 @@ def graph_all(name):
 
 @app.route("/graph/app")
 def graph_app():
-	if "user" in session:
-		session.pop("user")
+	# if "user" in session:
+		# session.pop("user")
 	if not session.get("user"):
 		print("no!!!", flush=True)
 		return redirect(url_for("login"))
@@ -78,6 +80,6 @@ def graph_app():
 
 @app.route("/test123")
 def test():
-	session['user'] = random.randint(1,10)
-	print(session, flush=True)
+	# session['user'] = random.randint(1,10)
+	# print(session, flush=True)
 	return render_template("test.html")

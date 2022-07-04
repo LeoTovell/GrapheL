@@ -1,4 +1,4 @@
-from flask import Flask, session
+from flask import Flask, session, _request_ctx_stack				
 from flask_session import Session
 
 # def set_session(session_type, value):
@@ -8,7 +8,6 @@ from flask_session import Session
 from graph import Graph
 from databaseManager import DatabaseManager
 from dotenv import load_dotenv
-from logonManager import LogonManager
 from flask_socketio import SocketIO
 
 # This file should mainly only include the core functionality to run the server.
@@ -16,9 +15,17 @@ from flask_socketio import SocketIO
 app = Flask(__name__)
 app.config["SECRET_KEY"] = "key"
 socketio = SocketIO(app)
-app.config["SESSION_PERMANENT"] = False
+app.config["SESSION_PERMANENT"] = True
 app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
+
+def get_session(type):
+	return _request_ctx_stack().session.get(type)
+
+def set_session(type, value):
+	_request_ctx_stack().session[type] = value
+
+from logonManager import LogonManager
 
 # databases = ["users.db", "graphs.db"]
 userDBManager = DatabaseManager("users.db", "users")
@@ -36,11 +43,6 @@ def get_graph():
 @app.context_processor
 def inject_stage_and_region():
     return dict(logon_manager = logonManager, flashed_messages = flashed_messages)
-
-def _session_save(session):
-	from flask.globals import _request_ctx_stack
-	app.session.interface.save_session(app, session, flask.Response())
-
 
 # Import routes managed in external file (for ease) !! MUST BE AFTER APP DEFINITION AND BEFORE SCRIPT RUN !!
 import routes

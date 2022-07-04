@@ -3,6 +3,8 @@ from dotenv import load_dotenv
 from pathlib import Path
 import os
 import sqlite3
+from flask import _request_ctx_stack
+from __main__ import get_session, set_session
 # .env for priv/publ key
 # load_dotenv(dotenv_path=Path("sec.env"))
 
@@ -73,15 +75,28 @@ class LogonManager:
 		return error
 
 	def get_user(self):
-		return ["leo"]
+		# return ["leo"]
+		# get user from session
+		user = "hey"
+		return False
 
 	def is_logged_in(self):
-		return True
+		return False
 
 	def is_admin(self):
-		return True
+		return False
 		user = get_user()
 		if user[4] == "admin":
 			return True
 		else:
 			return False
+
+	def log_out_user(self):
+		# Log out
+		return True
+
+	def get_sess(self, type):
+		return get_session(type)
+
+	def set_sess(self, type, value):
+		set_session(type, value)

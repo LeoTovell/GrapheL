@@ -21,10 +21,11 @@
   	   <li><a href={{url_for("admin")}}>Admin</a></li>
       {% endif %}
   	{% endif %}
+  	<li><a>Your unique ID is: {{logon_manager.get_sess("user")}}</a></li>
   	{% if logon_manager.is_logged_in() == False %}
   	<li style="float:right;"><a href={{url_for("login")}}>Login</a></li>
   	{% else %}
-  	<li style="float:right;"><a href={{url_for("profile")}}>{{logon_manager.get_user()[0][0].upper() + logon_manager.get_user()[0][1:].lower()}}</a></li>
+  	<li style="float:right;"><a href={{url_for("profile")}}>{{logon_manager.get_user()}}</a></li>
   	{% endif %}
 </ul>
 
