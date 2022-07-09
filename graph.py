@@ -1,4 +1,5 @@
 from Vertex import Vertex
+import random
 
 class Graph:
 	def __init__(self, name):
@@ -7,6 +8,12 @@ class Graph:
 
 	def get_vertices(self):
 		return self.vertex_list
+
+	def generate_random_coordinates(self, vertex):
+		x = random.randint(0, 400)
+		y = random.randint(0, 400)
+		vertex.set_x(x)
+		vertex.set_y(y)
 
 	def create_default_values(self):
 		# Create defaults
@@ -24,7 +31,6 @@ class Graph:
 		for edge in default_edges:
 			self.add_named_edge(edge[0], edge[1], edge[2])
 
-
 	def compile_adjacency_list(self):
 		# Setup list
 		adjacency_list = []
@@ -39,7 +45,7 @@ class Graph:
 		# Setup list
 		adjacency_list = []
 		for vertex in self.vertex_list:
-			content = [vertex.get_name()]
+			content = [vertex.get_name(), vertex.get_coords()]
 			for neighbour in vertex.get_neighbours(self.vertex_list):
 				content.append([neighbour.get_name(), self.get_edge(vertex, neighbour).get_weight()])
 			adjacency_list.append(content)
@@ -65,6 +71,8 @@ class Graph:
 				existing_vertex = vertex
 		if existing_vertex == None:
 			vertex = Vertex(name)
+			self.generate_random_coordinates(vertex)
+			# print(vertex.get_coords(), flush=True)
 			self.vertex_list.append(vertex)
 			return True
 		else:

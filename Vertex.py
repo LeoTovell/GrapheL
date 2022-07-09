@@ -4,8 +4,8 @@ class Vertex:
 	def __init__(self, name):
 		self.name = name
 		self.edge_list = []
-		# self.x = x
-		# self.y = y
+		self.x = None
+		self.y = None
 
 	def add_edge(self, destination, weight, all_vertices):
 		if destination == self:
@@ -39,6 +39,12 @@ class Vertex:
 					neighbours.append(edge.get_start())
 		return neighbours
 
+	def set_x(self, x):
+		self.x = x
+
+	def set_y(self, y):
+		self.y = y
+
 	def has_coords(self):
 		return (y != None and x != None)
 
@@ -47,3 +53,6 @@ class Vertex:
 
 	def get_edges(self):
 		return self.edge_list
+
+	def get_coords(self):
+		return [self.x, self.y]

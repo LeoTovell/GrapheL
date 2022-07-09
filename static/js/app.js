@@ -2,15 +2,17 @@ var ctx;
 var running = true;
 var x = y = 200;
 var graph;
+// Graph = ["node", [x, y], [neighbour, weight], [neighbour, weight], [neighbour, weight]]
 
 function request_graph(){
+	// Get canvas dimensions and send to socket
 	socket.emit("request_graph");
 	console.log("Graph Reqeusted")
 }
 
-socket.on("receive_graph", function(graph){
-	graph = graph;
-	console.log(graph)
+socket.on("receive_graph", function(data){
+	graph = data;
+	console.log(JSON.parse(graph))
 });
 
 function mousemove(canvas, event){
@@ -20,8 +22,8 @@ function mousemove(canvas, event){
 	// console.log("y = " + event.clientY - rect.top);
 
 	if(event.buttons == 1){
-	console.log("X: " + Math.round(event.clientX - rect.left));
-	console.log("Y: " + Math.round(event.clientY - rect.top));
+	// console.log("X: " + Math.round(event.clientX - rect.left));
+	// console.log("Y: " + Math.round(event.clientY - rect.top));
 }
 	return {
 		x: event.clientX - rect.left,
@@ -90,6 +92,26 @@ if(!ctx){
 	ctx.strokeText("B", 495, 408)
 
 
+}
+
+function draw_graph(){
+	for(var i = 0; i < graph.graph.length; i++){ // Each node
+		// Draw the vertex from its coordinate.
+		ctx.beginPath();
+		ctx.arc(graph.graph[i][1][0], graph.graph[i][1][1], 25, 0, 2 * Math.PI);
+		ctx.fillStyle = "white";
+		ctx.fill();
+		ctx.stroke();
+		ctx.closePath();
+
+		for(var j = 2; j < graph.graph[i].length; j++){ // Each edge tuple
+			console.log(graph.graph[i][0] + " --" + (graph.graph[i][j][1]).toString() + "--> "+ graph.graph[i][j][0])
+			ctx.beginPath();
+			ctx.moveTo()
+
+		}
+	}
+	// console.log(graph.graph.length)
 }
 
 function canvas_draw_square(){

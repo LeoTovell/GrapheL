@@ -1,5 +1,6 @@
 from __main__ import socketio, logonManager, flashed_messages, get_graph
 from flask import redirect, flash, url_for, request
+import json
 
 @socketio.on("login")
 def form_submit(data):
@@ -42,10 +43,10 @@ def test_sid(data):
 
 @socketio.on("request_graph")
 def request_graph():
-	print("Graph Requested", flush=True)
 	graph = get_graph()
-	print(graph.compile_adjacency_list_debug(), flush=True)
-	socketio.emit("receive_graph", {"graph": graph.compile_adjacency_list_debug()})
+	adjacency_list = graph.compile_adjacency_list_debug()
+	json_adjacency_list = json.dumps(adjacency_list)
+	socketio.emit("receive_graph", {"graph": json_adjacency_list})
 
 def redirect_to_url(url, sid):
 	print(url, flush=True)
