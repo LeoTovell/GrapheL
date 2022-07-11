@@ -1,5 +1,6 @@
 from Vertex import Vertex
 import random
+import string
 
 class Graph:
 	def __init__(self, name):
@@ -9,11 +10,19 @@ class Graph:
 	def get_vertices(self):
 		return self.vertex_list
 
-	def generate_random_coordinates(self, vertex):
+	def generate_random_coordinates(self, vertex, width, height):
 		x = random.randint(0, 400)
 		y = random.randint(0, 400)
 		vertex.set_x(x)
 		vertex.set_y(y)
+
+	def renew_coordinates(self, width, height):
+		for vertex in self.vertex_list:
+			x = random.randint(20, width-20)
+			y = random.randint(20, height-20)
+			vertex.set_x(x)
+			vertex.set_y(y)
+
 
 	def create_default_values(self):
 		# Create defaults
@@ -51,6 +60,17 @@ class Graph:
 			adjacency_list.append(content)
 		return adjacency_list
 
+	def compile_adjacency_dict_debug(self):
+		adjacency_dict = {}
+		for vertex in self.vertex_list:
+			node = vertex.get_name()
+			x, y = vertex.get_coords()
+			temp_dict = {"x":x, "y":y}
+			for neighbour in vertex.get_neighbours(self.vertex_list):
+				temp_dict[neighbour.get_name()] = self.get_edge(vertex, neighbour).get_weight()
+			adjacency_dict[node] = temp_dict
+		return adjacency_dict
+
 
 	def compile_adjacency_matrix(self):
 		# Unlikely to be used
@@ -71,7 +91,7 @@ class Graph:
 				existing_vertex = vertex
 		if existing_vertex == None:
 			vertex = Vertex(name)
-			self.generate_random_coordinates(vertex)
+			self.generate_random_coordinates(vertex, 400, 400)
 			# print(vertex.get_coords(), flush=True)
 			self.vertex_list.append(vertex)
 			return True
@@ -81,8 +101,18 @@ class Graph:
 
 	def create_pos_vertex(self, x, y):
 		# create a new vertex with supplied position and create the name automatically.
-
-		pass
+		existing_vertex = True
+		while existing_vertex == True:
+			name = "".join(random.choice(string.ascii_uppercase) for i in range(2))
+			for vertex in self.vertex_list:
+				if vertex.get_name() == name:
+					existing_vertex = True
+				else:
+					existing_vertex = False
+		vertex = Vertex(name)
+		vertex.set_x(x)
+		vertex.set_y(y)
+		self.vertex_list.append(vertex)
 
 	def remove_vertex(self, vertex):
 		# Remove the edges attached to and from the vertex and then delete the vertex from the vertex list

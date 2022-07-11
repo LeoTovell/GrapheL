@@ -55,4 +55,4 @@ class Vertex:
 		return self.edge_list
 
 	def get_coords(self):
-		return [self.x, self.y]
+		return self.x, self.y

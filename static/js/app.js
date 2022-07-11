@@ -2,34 +2,33 @@ var ctx;
 var running = true;
 var x = y = 200;
 var graph;
-// Graph = ["node", [x, y], [neighbour, weight], [neighbour, weight], [neighbour, weight]]
+var edge_color = "#000000";
+var vertex_color = "#ffffff";
+var bg_colour = "#ffffff";
+var edge_width = 1;
+var customisation_form;
 
 function request_graph(){
-	// Get canvas dimensions and send to socket
-	socket.emit("request_graph");
+	width = ctx.canvas.width;
+	height = ctx.canvas.height;
+	socket.emit("request_graph", {width, height});
 	console.log("Graph Reqeusted")
 }
 
 socket.on("receive_graph", function(data){
-	graph = data;
-	console.log(JSON.parse(graph))
+	graph = JSON.parse(data.graph);
+	// console.log(graph)
+	draw_graph()
 });
 
-function mousemove(canvas, event){
+function mousemove(event){
 	var rect = canvas.getBoundingClientRect();
-
-	// console.log("x = " + event.clientX - rect.left);
-	// console.log("y = " + event.clientY - rect.top);
-
-	if(event.buttons == 1){
-	// console.log("X: " + Math.round(event.clientX - rect.left));
-	// console.log("Y: " + Math.round(event.clientY - rect.top));
+	create_vertex(event.clientX - rect.left, event.clientY - rect.top);
 }
-	return {
-		x: event.clientX - rect.left,
-		y: event.clientY - rect.top
-	};
-}
+	// return {
+	// 	x: event.clientX - rect.left,
+	// 	y: event.clientY - rect.top
+	// };
 
 function init(){
 	console.log("Starting graph program.")
@@ -43,7 +42,8 @@ function init(){
 	var canvas_div = document.getElementById("canvas-div");
 
 	canvas.id = "canvas";
-	canvas.setAttribute("onmousemove", "mousemove(this, event)")
+	// canvas.setAttribute("onmousemove", "mousemove(this, event)")
+	canvas.addEventListener("click", function(event) {mousemove(event)}, false)
 	canvas.width = canvas_div.offsetWidth;
 	canvas.height = canvas_div.offsetHeight;
 	canvas_div.appendChild(canvas)
@@ -64,6 +64,8 @@ if(!ctx){
 
 	// Begin Loop
 	// Each iteration get new positions, or if the list is unchanged, skip over.
+
+	canvas_clear()
 
 	ctx.beginPath();
 	ctx.moveTo(300, 200);
@@ -95,23 +97,32 @@ if(!ctx){
 }
 
 function draw_graph(){
-	for(var i = 0; i < graph.graph.length; i++){ // Each node
-		// Draw the vertex from its coordinate.
+	for (const node in graph){
+		for(var element in graph[node]){
+			if(!Boolean(element === "x" | element === "y")){
+				ctx.beginPath()
+				ctx.moveTo(graph[node]["x"], graph[node]["y"]);
+				ctx.lineTo(graph[element]["x"], graph[element]["y"]);
+				ctx.lineWidth = edge_width;
+				ctx.fillStyle = edge_color;
+				ctx.strokeStyle = edge_color
+				ctx.stroke();
+				ctx.closePath();
+			}
+		}
+	}
+	for (const node in graph){
 		ctx.beginPath();
-		ctx.arc(graph.graph[i][1][0], graph.graph[i][1][1], 25, 0, 2 * Math.PI);
-		ctx.fillStyle = "white";
+		ctx.arc(graph[node]["x"], graph[node]["y"], 20, 0, 2 * Math.PI);
+		ctx.fillStyle = vertex_color;
+		ctx.lineWidth = 1;
+		ctx.strokeStyle = "black"
 		ctx.fill();
 		ctx.stroke();
 		ctx.closePath();
 
-		for(var j = 2; j < graph.graph[i].length; j++){ // Each edge tuple
-			console.log(graph.graph[i][0] + " --" + (graph.graph[i][j][1]).toString() + "--> "+ graph.graph[i][j][0])
-			ctx.beginPath();
-			ctx.moveTo()
-
-		}
+		ctx.strokeText(node, graph[node]["x"] - 5, graph[node]["y"] + 8);
 	}
-	// console.log(graph.graph.length)
 }
 
 function canvas_draw_square(){
@@ -125,6 +136,8 @@ function canvas_draw_square(){
 
 function canvas_clear(){
 	ctx.clearRect(0, 0, canvas.width, canvas.height);
+	ctx.fillStyle = bg_colour;
+	ctx.fillRect(0, 0, canvas.width, canvas.height);
 }
 
 function hideButton(){
@@ -134,4 +147,20 @@ function hideButton(){
 function incrementPos(x1, y1){
 	x += x1;
 	y += y1;
+}
+
+function update_customisation(){
+	customisation_form = document.getElementById("customisation_form");
+	vertex_color = customisation_form.elements.vertexcolorpicker.value;
+	edge_color = customisation_form.elements.edgecolorpicker.value;
+	bg_colour = customisation_form.elements.bgcolorpicker.value;
+	edge_width = customisation_form.elements.edgewidth.value;
+	canvas_clear();
+	draw_graph();
+	// return false;
+}
+
+function create_vertex(x, y){
+	console.log(x)
+	socket.emit("create_vertex", {x, y});
 }

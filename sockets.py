@@ -42,11 +42,22 @@ def test_sid(data):
 	socketio.send("test_message", data, room=request.sid)
 
 @socketio.on("request_graph")
-def request_graph():
+def request_graph(data):
+	# print(data, flush=True)
 	graph = get_graph()
-	adjacency_list = graph.compile_adjacency_list_debug()
-	json_adjacency_list = json.dumps(adjacency_list)
-	socketio.emit("receive_graph", {"graph": json_adjacency_list})
+	graph.renew_coordinates(data["width"], data["height"])
+	adjacency_dict = graph.compile_adjacency_dict_debug()
+	json_adjacency_dict = json.dumps(adjacency_dict)
+	print(json_adjacency_dict, flush=True)
+	socketio.emit("receive_graph", {"graph": json_adjacency_dict})
+
+@socketio.on("create_vertex")
+def create_vertex(data):
+	graph = get_graph()
+	graph.create_pos_vertex(data["x"], data["y"])
+	adjacency_dict = graph.compile_adjacency_dict_debug()
+	json_adjacency_dict = json.dumps(adjacency_dict)
+	socketio.emit("receive_graph", {"graph": json_adjacency_dict})
 
 def redirect_to_url(url, sid):
 	print(url, flush=True)

@@ -31,6 +31,39 @@
     <button onclick="request_graph()">Get Graph</button>
     <button onclick="draw_graph()">Draw Graph</button>
 
+   <!--  <form action="/action_page.php">
+      
+      
+      <br><br>
+      <input type="submit" value="Apply Changes">
+    </form> -->
+
+    <form onsubmit="update_customisation(); return false;" id="customisation_form">
+      <legend>Customisation</legend>
+      <label for="vertexcolorpicker">Vertex Colour: </label>
+      <input type="color" id="vertexcolorpicker" value="#ffffff">
+      <br>
+      <label for="vertex_shape">Vertex Shape:</label>
+      <select name="vertex_shape" id="vertex_shape">
+      <option value="circle">Circle</option>
+      <option value="square">Square</option>
+      <option value="star">Star</option>
+      <option value="ellipse">Ellipse</option>
+      </select>
+      <br>
+      <br>
+      <label for="edgecolorpicker">Edge Colour: </label>
+      <input type="color" id="edgecolorpicker" value="#000000">
+      <br>
+      <label for="edgewidth">Edge Width: </label>
+      <input type="number" id="edgewidth" min="1" max="5">
+      <br><br>
+      <label for="bgcolorpicker">Background Colour: </label>
+      <input type="color" id="bgcolorpicker" value="#ffffff">
+      <br><br>
+      <input type="submit" value="Apply Changes">
+    </form>
+
   </div>
   <div id="canvas-div" style="float:right; border: 2px solid green; margin-left: 10px; position: relative; height: 100%; width: 78%"></div>
   <button id ="initButton" onclick="init()">Start App</button>
