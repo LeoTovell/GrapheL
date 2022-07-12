@@ -97,6 +97,7 @@ if(!ctx){
 }
 
 function draw_graph(){
+	canvas_clear()
 	for (const node in graph){
 		for(var element in graph[node]){
 			if(!Boolean(element === "x" | element === "y")){
