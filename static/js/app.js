@@ -7,6 +7,7 @@ var vertex_color = "#ffffff";
 var bg_colour = "#ffffff";
 var edge_width = 1;
 var customisation_form;
+var add_vertex_toggle = true;
 
 function request_graph(){
 	width = ctx.canvas.width;
@@ -21,14 +22,15 @@ socket.on("receive_graph", function(data){
 	draw_graph()
 });
 
-function mousemove(event){
-	var rect = canvas.getBoundingClientRect();
-	create_vertex(event.clientX - rect.left, event.clientY - rect.top);
-}
-	// return {
-	// 	x: event.clientX - rect.left,
-	// 	y: event.clientY - rect.top
-	// };
+function mouse_left(event){
+	if(add_vertex_toggle){
+		var rect = canvas.getBoundingClientRect();
+
+		console.log(event)
+
+		create_vertex(event.clientX - rect.left, event.clientY - rect.top);
+		}
+	}
 
 function init(){
 	console.log("Starting graph program.")
@@ -36,19 +38,19 @@ function init(){
 
 	// CREATE Canvas
 
-
 	var app_container = document.getElementById("app-container")
 	var canvas = document.createElement("canvas");
 	var canvas_div = document.getElementById("canvas-div");
-
 	canvas.id = "canvas";
-	// canvas.setAttribute("onmousemove", "mousemove(this, event)")
-	canvas.addEventListener("click", function(event) {mousemove(event)}, false)
+	canvas.addEventListener("click", function(event) {mouse_left(event)}, false)
 	canvas.width = canvas_div.offsetWidth;
 	canvas.height = canvas_div.offsetHeight;
 	canvas_div.appendChild(canvas)
-
 	ctx = canvas.getContext("2d");
+
+	// Add to custom buttons
+	var test_button = document.getElementById("create_vertex").children[0];
+	test_button.addEventListener("change", function(event){button_event(event)});
 
 if (!ctx){
 	console.log("Your browser does not support webctx without falling back on experimental.")
@@ -57,43 +59,8 @@ if (!ctx){
 
 if(!ctx){
 	alert("Your browser does not support webctx")
+	throw new Error("Browser does not support WebCTX")
 	}
-
-	// ctx.clearColor(0.75, 0.85, 0.8, 1.0);
-	// ctx.clear(ctx.COLOR_BUFFER_BIT | ctx.DEPTH_BUFFER_BIT);
-
-	// Begin Loop
-	// Each iteration get new positions, or if the list is unchanged, skip over.
-
-	canvas_clear()
-
-	ctx.beginPath();
-	ctx.moveTo(300, 200);
-	ctx.lineTo(500, 400);
-	ctx.stroke();
-	ctx.closePath();
-
-	ctx.beginPath();
-	ctx.arc(300, 200, 25, 0, 2 * Math.PI); // X, Y, radius
-	ctx.fillStyle = "white"
-	ctx.fill()
-	ctx.stroke();
-	ctx.closePath();
-
-	ctx.font = "20px serif";
-	ctx.strokeText("A", 293, 207)
-
-
-	ctx.beginPath();
-	ctx.arc(500, 400, 25, 0, 2 * Math.PI); // X, Y, radius
-	ctx.fillStyle = "white"
-	ctx.fill()
-	ctx.stroke();
-	ctx.closePath();
-
-	ctx.strokeText("B", 495, 408)
-
-
 }
 
 function draw_graph(){
@@ -101,7 +68,7 @@ function draw_graph(){
 	for (const node in graph){
 		for(var element in graph[node]){
 			if(!Boolean(element === "x" | element === "y")){
-				ctx.beginPath()
+				ctx.beginPath();
 				ctx.moveTo(graph[node]["x"], graph[node]["y"]);
 				ctx.lineTo(graph[element]["x"], graph[element]["y"]);
 				ctx.lineWidth = edge_width;
@@ -164,4 +131,15 @@ function update_customisation(){
 function create_vertex(x, y){
 	console.log(x)
 	socket.emit("create_vertex", {x, y});
+}
+
+function test_func(){
+	return document.getElementById("create_vertex").children[0].checked;
+}
+
+function button_event(event){
+	if (event.target.checked){
+		for()
+	}
+
 }

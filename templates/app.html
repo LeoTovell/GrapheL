@@ -1,6 +1,10 @@
 {% extends "base.html" %}
 
 {% block title %}App{% endblock %}
+{% block styles %}
+<link rel="stylesheet" type="text/css" href={{url_for('static', filename='styles/app.css')}}>
+{% endblock %}
+
 
 {% block body %}
 
@@ -25,18 +29,45 @@
 <div id="app-container" style="display:flex; justify-content: center; vertical-align: middle; align-items: center; padding: 20px; height: 90%; width: 98%; position: absolute"> <!-- no, i dont know why these values have to be so specific -->
   <div id="control-div" style="float:left; border: 2px solid red; position: relative; height: 100%; width: 18%">
     
-    <button onclick="canvas_clear()">Clear</button>
-    <button onclick="canvas_draw_square()">Sqaure</button>
-    <button onclick="incrementPos(300, 1)">Increment</button>
-    <button onclick="request_graph()">Get Graph</button>
-    <button onclick="draw_graph()">Draw Graph</button>
+    <table>
+    <tr><td>Add Vertex</td><td><div class="toggle-button-cover">
+      <div class="button-cover">
+        <div class="button r button-2" id="create_vertex">
+          <input type="checkbox" class="checkbox" />
+          <div class="knobs"></div>
+          <div class="layer"></div>
+        </div>
+      </div>
+    </div>
+    <tr><td>Remove Vertex</td><td><div class="toggle-button-cover">
+      <div class="button-cover">
+        <div class="button r button-2" id="remove_vertex">
+          <input type="checkbox" class="checkbox" />
+          <div class="knobs"></div>
+          <div class="layer"></div>
+        </div>
+      </div>
+    </div></td></tr>
+    <tr><td>Add Edge</td><td><div class="toggle-button-cover">
+      <div class="button-cover">
+        <div class="button r button-2" id="add_edge">
+          <input type="checkbox" class="checkbox" />
+          <div class="knobs"></div>
+          <div class="layer"></div>
+        </div>
+      </div>
+    </div></td></tr>
+    <tr><td>Remove Edge</td><td><div class="toggle-button-cover">
+      <div class="button-cover">
+        <div class="button r button-2" id="remove_edge">
+          <input type="checkbox" class="checkbox" />
+          <div class="knobs"></div>
+          <div class="layer"></div>
+        </div>
+      </div>
+    </div></td></tr>
 
-   <!--  <form action="/action_page.php">
-      
-      
-      <br><br>
-      <input type="submit" value="Apply Changes">
-    </form> -->
+    </table>
 
     <form onsubmit="update_customisation(); return false;" id="customisation_form">
       <legend>Customisation</legend>
@@ -63,7 +94,13 @@
       <br><br>
       <input type="submit" value="Apply Changes">
     </form>
+    <p1>Debug Options</p1>
 
+    <button onclick="canvas_clear()">Clear</button>
+    <button onclick="canvas_draw_square()">Sqaure</button>
+    <button onclick="incrementPos(300, 1)">Increment</button>
+    <button onclick="request_graph()">Get Graph</button>
+    <button onclick="draw_graph()">Draw Graph</button>
   </div>
   <div id="canvas-div" style="float:right; border: 2px solid green; margin-left: 10px; position: relative; height: 100%; width: 78%"></div>
   <button id ="initButton" onclick="init()">Start App</button>
